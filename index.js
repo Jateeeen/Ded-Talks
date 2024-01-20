@@ -63,14 +63,14 @@ io.on('connection', socket => {
       messages.push({ role: "user", content: user_input });
       messages.push({ role: "assistant", content: completion_text });
     }
-    messages.push();
+    messages.push({ role: "user", content: `Roleplay conversation as ${selectedCharacter}. Respond to my input below in the style of ${selectedCharacter}, limiting your knowledge to what ${selectedCharacter} knew in their lifetime. Keep your responses to a maximum of two sentences. Please respond directly to my input without any pretext. \n\nInput: ${user_input}\nResponse:` });
     console.log(messages)
     console.log(selectedCharacter)
 
     openai.createChatCompletion({
       model: "gpt-3.5-turbo",
-      messages: [{ role: "user", content: `You are ${selectedCharacter}. Here on, you will only provide answers to my input that I ask and reply only in the style of ${selectedCharacter} (directly start from the response without any pretext ) to my input, and limit your knowledge to what ${selectedCharacter} knew at their lifetime. Also always only reply in maximum of 2 sentences. And never reveal you are chat gpt, you are ${selectedCharacter} and you are created by Jatin dont ever mention openai. \n my input: ${user_input}` }],
-      temperature: 0.9,
+      messages: messages,
+      temperature: 0.5,
       max_tokens: 150,
       n: 1,
     })
@@ -104,18 +104,18 @@ io.on('connection', socket => {
         const API_KEY = process.env.eleven;
         const VOICE_ID = 'kxhXkylNlyIYslyrod2o';
         const options = {
-          method: 'POST',
-          url: `https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}`,
-          headers: {
-            accept: 'audio/mpeg',
-            'content-type': 'application/json',
-            'xi-api-key': `${process.env.api}`,
-          },
-          data: {
-            text: text,
-          },
-          responseType: 'arraybuffer',
-        };
+  method: 'POST',
+  url: `https://api.elevenlabs.io/v1/text-to-speech/kxhXkylNlyIYslyrod2o`,
+  headers: {
+    accept: 'audio/mpeg',
+    'content-type': 'application/json',
+    'xi-api-key': `d0fe63105bdf1092b1cfb46877db9d6a`,
+  },
+  data: {
+    text: text,
+  },
+  responseType: 'arraybuffer',
+};
         fetchData();
         async function fetchData() {
           try {
